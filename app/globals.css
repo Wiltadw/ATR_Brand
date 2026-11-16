@@ -1,24 +1,140 @@
 @import "tailwindcss";
 
+/* ───────── فونت (خود‌میزبان، بدون نیاز به اینترنت) ───────── */
+@font-face { font-family: "Vazirmatn"; font-weight: 400; font-style: normal; font-display: swap;
+  src: url(/fonts/vazirmatn-arabic-400-normal.woff2) format("woff2");
+  unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC; }
+@font-face { font-family: "Vazirmatn"; font-weight: 600; font-style: normal; font-display: swap;
+  src: url(/fonts/vazirmatn-arabic-600-normal.woff2) format("woff2");
+  unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC; }
+@font-face { font-family: "Vazirmatn"; font-weight: 800; font-style: normal; font-display: swap;
+  src: url(/fonts/vazirmatn-arabic-800-normal.woff2) format("woff2");
+  unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC; }
+@font-face { font-family: "Vazirmatn"; font-weight: 400; font-style: normal; font-display: swap;
+  src: url(/fonts/vazirmatn-latin-400-normal.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Vazirmatn"; font-weight: 600; font-style: normal; font-display: swap;
+  src: url(/fonts/vazirmatn-latin-600-normal.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Vazirmatn"; font-weight: 800; font-style: normal; font-display: swap;
+  src: url(/fonts/vazirmatn-latin-800-normal.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+/*
+  ───────── رنگ‌های برند ─────────
+  برای عوض کردن ظاهر کل سایت (مثلاً مشکی و طلایی)، فقط همین چند خط را عوض کنید.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #0c0810;          /* پس‌زمینه اصلی (مشکی بنفش‌مایل) */
+  --ink-raised: #150e1a;   /* کارت‌ها و پنل‌ها */
+  --ink-line: #2b1d33;     /* خط‌های جداکننده */
+  --cream: #f4ece6;        /* متن اصلی */
+  --cream-dim: #b9aab6;    /* متن کم‌رنگ‌تر */
+  --neon: #ff1f8e;         /* رنگ اصلی برند (از لوگو) */
+  --neon-soft: #ff7ac0;
+  --gold: #c9a96e;         /* طلایی شمپاینی: فقط جزئیات و قیمت */
+  --danger: #ff6b6b;
+  --ok: #5fd6a0;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-raised: var(--ink-raised);
+  --color-line: var(--ink-line);
+  --color-cream: var(--cream);
+  --color-dim: var(--cream-dim);
+  --color-neon: var(--neon);
+  --color-neon-soft: var(--neon-soft);
+  --color-gold: var(--gold);
+  --color-danger: var(--danger);
+  --color-ok: var(--ok);
+  --font-sans: "Vazirmatn", ui-sans-serif, system-ui, "Segoe UI", Tahoma, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html { background: var(--ink); color-scheme: dark; scroll-behavior: smooth; }
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-sans);
+  line-height: 1.8;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection { background: var(--neon); color: #fff; }
+
+/* فوکوس واضح برای کیبورد */
+:focus-visible { outline: 2px solid var(--neon-soft); outline-offset: 3px; border-radius: 4px; }
+
+/* ───────── تابلوی نئونی (لحظه‌ی ماندگار صفحه‌ی اصلی) ───────── */
+@keyframes neon-on {
+  0%   { opacity: .06; filter: saturate(.4); }
+  8%   { opacity: .9; }
+  12%  { opacity: .15; }
+  22%  { opacity: 1; }
+  27%  { opacity: .3; }
+  40%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+.neon-sign { animation: neon-on 1.6s ease-out 1 both; }
+.neon-glow { filter: drop-shadow(0 0 18px rgba(255, 31, 142, .55)) drop-shadow(0 0 60px rgba(255, 31, 142, .3)); }
+
+/* هاله‌ی صورتی پشت بطری محصول */
+.bottle-halo {
+  background:
+    radial-gradient(60% 55% at 50% 58%, rgba(255, 31, 142, .22), transparent 70%),
+    linear-gradient(180deg, #1a1020, #0f0914);
+}
+
+@layer components {
+/* ───────── دکمه‌ها ───────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 48px; padding: 0 1.5rem; border-radius: 999px;
+  font-weight: 600; font-size: 1rem; line-height: 1;
+  transition: box-shadow .2s ease, background-color .2s ease, border-color .2s ease, transform .1s ease;
+  cursor: pointer; text-align: center;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--neon); color: #fff; box-shadow: 0 0 0 0 rgba(255, 31, 142, 0); }
+.btn-primary:hover { box-shadow: 0 0 28px rgba(255, 31, 142, .55); }
+.btn-ghost { border: 1px solid var(--ink-line); color: var(--cream); background: transparent; }
+.btn-ghost:hover { border-color: var(--neon-soft); }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; box-shadow: none; }
+
+/* ───────── فرم‌ها ───────── */
+.field {
+  width: 100%; min-height: 48px; padding: .6rem 1rem; border-radius: 12px;
+  background: var(--ink-raised); border: 1px solid var(--ink-line); color: var(--cream);
+  font: inherit; line-height: 1.6;
+}
+.field::placeholder { color: #8d7d8a; }
+.field:focus { outline: none; border-color: var(--neon-soft); box-shadow: 0 0 0 3px rgba(255, 31, 142, .2); }
+.field[aria-invalid="true"] { border-color: var(--danger); }
+
+/* برچسب‌های گرد (تگ‌ها) */
+.pill {
+  display: inline-flex; align-items: center; min-height: 28px; padding: 0 .75rem;
+  border-radius: 999px; border: 1px solid var(--ink-line); color: var(--cream-dim);
+  font-size: .8125rem; line-height: 1; white-space: nowrap;
+  transition: border-color .2s ease, color .2s ease, background-color .2s ease;
+}
+a.pill:hover, button.pill:hover { border-color: var(--neon-soft); color: var(--cream); }
+.pill[aria-pressed="true"], .pill[data-active="true"] { background: rgba(255, 31, 142, .14); border-color: var(--neon); color: var(--cream); }
+}
+
+/* ارقام فارسی هم‌عرض برای قیمت */
+.num { font-variant-numeric: tabular-nums; }
+
+/* اسکلت بارگذاری */
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.skeleton {
+  background: linear-gradient(90deg, var(--ink-raised) 25%, #1f1526 50%, var(--ink-raised) 75%);
+  background-size: 200% 100%; animation: shimmer 1.6s linear infinite; border-radius: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .neon-sign, .skeleton { animation: none; }
+  .btn, .pill { transition: none; }
 }

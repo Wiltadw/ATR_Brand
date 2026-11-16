@@ -114,6 +114,7 @@ export type ListParams = {
   page?: number;
   pageSize?: number;
   includeSamples?: boolean;
+  ids?: number[];
 };
 
 export async function listProducts(params: ListParams) {
@@ -137,6 +138,10 @@ export async function listProducts(params: ListParams) {
   }
   if (params.availability && ["AVAILABLE", "UNAVAILABLE", "COMING_SOON"].includes(params.availability)) {
     conds.push(eq(products.availability, params.availability as "AVAILABLE"));
+  }
+  if (params.ids) {
+    const ids = params.ids.filter((n) => Number.isInteger(n) && n > 0).slice(0, 60);
+    conds.push(ids.length ? inArray(products.id, ids) : sql`0`);
   }
   if (params.featured) conds.push(eq(products.featured, true));
   if (params.bestSeller) conds.push(eq(products.bestSeller, true));
@@ -254,4 +259,19 @@ export async function getPriceHistory(productId: number) {
       changeToman: prev ? r.priceToman - prev.priceToman : null,
     };
   });
+}
+
+/** همه تگ‌ها با تعداد محصول (برای فیلتر و صفحه اصلی) */
+export async function listTags() {
+  const rows = await db
+    .select({
+      id: tags.id,
+      name: tags.name,
+      slug: tags.slug,
+      group: tags.group,
+      productCount: sql<number>`(SELECT COUNT(*) FROM product_tags pt WHERE pt.tag_id = ${tags.id})`,
+    })
+    .from(tags)
+    .orderBy(asc(tags.sortOrder), asc(tags.id));
+  return rows.map((r) => ({ ...r, productCount: Number(r.productCount) }));
 }

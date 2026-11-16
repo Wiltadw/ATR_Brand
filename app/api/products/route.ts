@@ -22,6 +22,7 @@ export async function GET(req: Request) {
       onSale: sp.get("onSale") === "1",
       bestSeller: sp.get("bestSeller") === "1",
       availability: sp.get("availability") || undefined,
+      ids: sp.get("ids")?.split(",").map(Number).filter((n) => Number.isInteger(n) && n > 0),
       page: num(sp.get("page")),
       pageSize: num(sp.get("limit")),
     });
