@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // اسکریپت‌های تست و نصب (فقط ابزار توسعه‌اند، نه کد سایت)
+    "scripts/**",
   ]),
 ]);
 

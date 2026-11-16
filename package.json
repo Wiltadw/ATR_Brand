@@ -6,21 +6,44 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "node --env-file=.env --import tsx scripts/migrate.mts",
+    "db:seed": "node --env-file=.env --import tsx scripts/seed.mts",
+    "sample:add": "node --env-file=.env --import tsx scripts/seed-sample.mts",
+    "sample:remove": "node --env-file=.env --import tsx scripts/remove-sample.mts",
+    "setup": "npm run db:migrate && npm run db:seed",
+    "typecheck": "tsc --noEmit",
+    "test:api": "node --env-file=.env --import tsx scripts/test-api.mts",
+    "test:currency": "node --env-file=.env --import tsx scripts/test-currency.mts",
+    "init-env": "node --import tsx scripts/init-env.mts",
+    "dev:phone": "next dev -H 0.0.0.0"
   },
   "dependencies": {
+    "@libsql/client": "^0.18.0",
+    "argon2": "^0.45.2",
+    "drizzle-orm": "^0.45.4",
+    "jose": "^6.2.17",
     "next": "16.4.6",
+    "node-cron": "^4.6.0",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "sharp": "^0.35.5",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "4.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.11",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
     "tailwindcss": "4.3.3",
+    "tsx": "^4.23.15",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=20.6"
   }
 }
